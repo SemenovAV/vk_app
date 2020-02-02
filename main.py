@@ -1,8 +1,23 @@
 import requests
+from urllib.parse import urlencode
 
+APP_ID = '7302199'
 TOKEN = ''
 API_URL = 'https://api.vk.com/method/'
+AUTH_URL = 'https://oauth.vk.com/authorize'
 VERSION = 5.52
+params = {
+    'client_id': APP_ID,
+    'display': 'page',
+    'scope': 'friends',
+    'response_type': 'token',
+    'v': VERSION,
+}
+
+def get_token():
+    print('Ссылка для получения access_token:')
+    print('?'.join((AUTH_URL, urlencode(params))))
+    return input('TOKEN:')
 
 
 def get_user(user_id=None, screen_name=None):
@@ -53,7 +68,8 @@ class User:
 
 
 if __name__ == '__main__':
-
+    if not TOKEN:
+        TOKEN = get_token()
     i = User()
     friend = User(screen_name='glebse')
     mutual = i & friend
